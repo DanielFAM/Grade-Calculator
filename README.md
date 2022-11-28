@@ -15,7 +15,7 @@
 
 2. Create a virtual environment into the directory of proyect
 
-    ```python 3 -m virtualenv env```
+    ```python3 -m virtualenv env```
 
 3. Install the dependencies contained in  requirements.txt
 
