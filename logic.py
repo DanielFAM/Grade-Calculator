@@ -1,56 +1,41 @@
-def validador(porcentajes):
+def ponderado(porcentajes):
+    
     ponderado = 0
 
     for porcentaje in porcentajes:
         ponderado += porcentaje
 
-    if ponderado == 100:
-        respuesta = "Ponderado al 100%, revisar notas y/o porcentajes"
-        print(respuesta)
-        breakpoint
-    
-    elif ponderado > 100:
-        respuesta = "ponderado mayor al 100%, revisar notas y/o porcentajes"
-        print(respuesta)
-        breakpoint
-
-    else:
-        return ponderado
+    return ponderado
 
 
 def faltante_final(notas, porcentajes):
-    respuesta = ''
 
-    ponderado = validador(porcentajes)
-    
-    
-    sumaNotas = 3
-    porcentaje_faltante = 100 - ponderado
+    pond = ponderado(porcentajes)
 
-    for i in range(len(notas)):
-        sumaNotas -= notas[i] * (porcentajes[i] / 100)
-
-    respuesta = (sumaNotas) / (porcentaje_faltante / 100)
+    if pond > 100 or pond == 100:
+        return "revisar notas, el % no puede ser mayor o igual a 100%"
     
-    return respuesta
+    else: 
+        sumaNotas = 3
+        porcentaje_faltante = 100 - pond
+
+        for i in range(len(notas)):
+            sumaNotas -= (notas[i]) * (porcentajes[i] / 100)
+
+        return (sumaNotas) / (porcentaje_faltante / 100)
     
 
 def nota_final(notas, porcentajes):
 
-    final = 0
+    pond = ponderado(porcentajes)
 
-    for i in range(len(notas)):
-        final += notas[i] * (porcentajes[i] / 100)
+    if pond > 100 or pond < 100:
+        return "Es necesario que el porcentaje de todas las notas sea 100% para calcular la nota final"
+    
+    else:
+        final = 0
 
-    return final
+        for i in range(len(notas)):
+            final += notas[i] * (porcentajes[i] / 100)
 
-
-
-if __name__ == "__main__":
-    notas = [2.8, 2.5, 3.3]
-    porcentajes = [10, 20, 20]
-
-    #print(nota_final(notas, porcentajes))
-    #print(faltante_final(notas, porcentajes))
-    print(faltante_final(notas, porcentajes))
-    print(nota_final(notas, porcentajes))
+        return final
