@@ -2,20 +2,35 @@
 from pydantic import BaseModel
 
 #FastAPI
-from fastapi import FastAPI, Body
+from fastapi import FastAPI, Body, Request
+from fastapi.templating import Jinja2Templates
+from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
 import logic
 
 app = FastAPI()
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+templates = Jinja2Templates(directory="templates")
 
 # Models 
 class Data(BaseModel):
-    grade: list
-    percentages: list
+    grade: int
+    percentages: int
 
 
-@app.get("/")
-def home():
-    return {"Hello" : "World"}
+@app.get("/", response_class=HTMLResponse)
+async def home(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
+
+
+@app.get("/finalNote", response_class=HTMLResponse)
+async def home(request: Request):
+    return templates.TemplateResponse("finalNote.html", {"request": request})
+
+@app.get("/finalRequired", response_class=HTMLResponse)
+async def home(request: Request):
+    return templates.TemplateResponse("finalRequired.html", {"request": request})
 
 #request and response body
 
